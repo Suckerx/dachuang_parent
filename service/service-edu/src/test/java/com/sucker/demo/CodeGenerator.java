@@ -36,7 +36,7 @@ public class CodeGenerator {
                                     "D:\\JavaCode\\dachuang_parent\\service\\service-edu\\src\\main\\resources\\mapper")); // 设置mapperXml生成路径
                 })
                 .strategyConfig(builder -> {
-                    builder.addInclude("edu_user","edu_teacher","edu_progress") // 设置需要生成的表名
+                    builder.addInclude("survey_info","question_info","option_info","answer_info") // 设置需要生成的表名
                             .addTablePrefix("t_", "c_") // 设置过滤表前缀
                             .serviceBuilder()
                             .formatServiceFileName("%sService")
