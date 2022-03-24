@@ -98,6 +98,19 @@ public class SurveyInfoController {
     }
 
 
+    /**
+     * 根据userId查询问卷答案
+     * @param userId
+     * @return
+     */
+    @ApiOperation(value = "根据userId查询问卷答案")
+    @GetMapping("getAnswerByUserId/{userId}")
+    public R getAnswerByUserId(@PathVariable String userId){
+        List<AnswerInfo> answerByUserIdList = answerInfoService.getAnswerByUserId(userId);
+        return R.ok().data("answerByUserIdList",answerByUserIdList);
+    }
+
+
 
     @ApiOperation(value = "没什么用，为了swagger显示所有实体类")
     @GetMapping("aaaa")

@@ -41,7 +41,7 @@ public class AnswerInfo implements Serializable {
     @TableField("question_id")
     private Integer questionId;
 
-    @ApiModelProperty("答案id 关联选项表id 依靠选项表id查询选项id")
+    @ApiModelProperty("答案id 1A 2B 3C 4D 5E")
     @TableField("answer_id")
     private String answerId;
 

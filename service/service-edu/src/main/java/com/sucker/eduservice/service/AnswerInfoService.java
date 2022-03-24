@@ -3,6 +3,8 @@ package com.sucker.eduservice.service;
 import com.sucker.eduservice.entity.AnswerInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  * 用户答案表 服务类
@@ -13,4 +15,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface AnswerInfoService extends IService<AnswerInfo> {
 
+    //根据userId查询问卷答案
+    List<AnswerInfo> getAnswerByUserId(String userId);
 }
