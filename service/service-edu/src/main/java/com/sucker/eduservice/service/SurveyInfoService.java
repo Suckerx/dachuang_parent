@@ -23,6 +23,8 @@ public interface SurveyInfoService extends IService<SurveyInfo> {
     List<NewSurveyVo> newSurvey(String userId);
 
     //根据userId查询问卷主表id
-    String getSurveyIdByUserId(String userId);
+    String getSurveyIdByUserId(String userId) throws Exception;
+
+    boolean saveAnswer(String userId,Map<Integer,String> answerMap,String surveyId);
 
 }

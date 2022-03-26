@@ -1,22 +1,25 @@
 package com.sucker.eduservice.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.sucker.commonutils.R;
+import com.sucker.eduservice.entity.AnswerInfo;
 import com.sucker.eduservice.entity.OptionInfo;
 import com.sucker.eduservice.entity.QuestionInfo;
 import com.sucker.eduservice.entity.SurveyInfo;
 import com.sucker.eduservice.entity.vo.NewSurveyVo;
 import com.sucker.eduservice.mapper.SurveyInfoMapper;
+import com.sucker.eduservice.service.AnswerInfoService;
 import com.sucker.eduservice.service.OptionInfoService;
 import com.sucker.eduservice.service.QuestionInfoService;
 import com.sucker.eduservice.service.SurveyInfoService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.sucker.servicebase.exceptionhandler.GuliException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
+import sun.security.jgss.GSSExceptionImpl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * <p>
@@ -34,6 +37,10 @@ public class SurveyInfoServiceImpl extends ServiceImpl<SurveyInfoMapper, SurveyI
 
     @Autowired
     private OptionInfoService optionInfoService;
+
+    @Autowired
+    private AnswerInfoService answerInfoService;
+
 
     //创建一个新的问卷
     @Override
@@ -63,9 +70,51 @@ public class SurveyInfoServiceImpl extends ServiceImpl<SurveyInfoMapper, SurveyI
 
     //根据userId查询问卷主表id
     @Override
-    public String getSurveyIdByUserId(String userId) {
+    public String getSurveyIdByUserId(String userId){
 
+        //查到一个调查问卷的信息
         SurveyInfo surveyInfo = baseMapper.selectOne(new QueryWrapper<SurveyInfo>().eq("creator_id", userId));
+        if(ObjectUtils.isEmpty(surveyInfo)) return "-1";
         return surveyInfo.getId();
+    }
+
+    @Override
+    public boolean saveAnswer(String userId, Map<Integer, String> answerMap,String surveyId) {
+
+        if(answerMap.isEmpty()) throw new GuliException(20001,"请填写答案再提交！");
+        //记得判断size是否等于问题数量
+        //if(answerMap.size()!=)
+
+        //查询以前是否填过，若填过则删除
+        List<AnswerInfo> answerByUserIdList = answerInfoService.getAnswerByUserId(userId);
+        if(!ObjectUtils.isEmpty(answerByUserIdList)) {
+            answerInfoService.remove(new QueryWrapper<AnswerInfo>().eq("user_id",userId));
+        }
+
+
+        //创建问卷答案集合
+        List<AnswerInfo> newSurveyVoList = new ArrayList<>();
+
+        //遍历map集合获得每个问题id和答案
+        Set<Integer> questionIds = answerMap.keySet();
+        for (Integer questionId : questionIds) {
+            AnswerInfo answerInfo = new AnswerInfo();
+            answerInfo.setQuestionId(questionId);
+            answerInfo.setUserId(userId);
+            answerInfo.setSurveyId(surveyId);
+            //保存答案
+            answerInfo.setAnswerId(answerMap.get(questionId));
+            newSurveyVoList.add(answerInfo);
+        }
+
+        try {
+            //如果不存在就保存，存在就更新
+
+            answerInfoService.saveBatch(newSurveyVoList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new GuliException(20001,"保存数据失败！");
+        }
+        return true;
     }
 }

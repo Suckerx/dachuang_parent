@@ -29,7 +29,7 @@ public class AnswerInfo implements Serializable {
     @TableId(value = "id",type = IdType.ASSIGN_ID)
     private String id;
 
-    @ApiModelProperty("成员id")
+    @ApiModelProperty("userid")
     @TableField("user_id")
     private String userId;
 
