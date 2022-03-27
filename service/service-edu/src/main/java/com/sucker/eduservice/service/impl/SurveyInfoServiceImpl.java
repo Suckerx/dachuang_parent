@@ -46,9 +46,15 @@ public class SurveyInfoServiceImpl extends ServiceImpl<SurveyInfoMapper, SurveyI
     @Override
     public List<NewSurveyVo> newSurvey(String userId) {
         // 1. 首先创建一个调查问卷
+        //先判断是否填过！
+        List<SurveyInfo> surveyInfoList = baseMapper.selectList(new QueryWrapper<SurveyInfo>().eq("creator_id", userId));
         SurveyInfo surveyInfo = new SurveyInfo();
         surveyInfo.setCreatorId(userId);
-        baseMapper.insert(surveyInfo);
+        if(surveyInfoList.size()!=0){
+            baseMapper.update(surveyInfo,new QueryWrapper<SurveyInfo>().eq("creator_id", userId));
+        }else{
+            baseMapper.insert(surveyInfo);
+        }
 
         // 2.查询问卷所有问题
         List<QuestionInfo> questionInfos = questionInfoService.selectAllQuestions();
@@ -73,9 +79,9 @@ public class SurveyInfoServiceImpl extends ServiceImpl<SurveyInfoMapper, SurveyI
     public String getSurveyIdByUserId(String userId){
 
         //查到一个调查问卷的信息
-        SurveyInfo surveyInfo = baseMapper.selectOne(new QueryWrapper<SurveyInfo>().eq("creator_id", userId));
-        if(ObjectUtils.isEmpty(surveyInfo)) return "-1";
-        return surveyInfo.getId();
+        List<SurveyInfo> surveyInfoList = baseMapper.selectList(new QueryWrapper<SurveyInfo>().eq("creator_id", userId));
+        if(surveyInfoList.size()==0) return "-1";
+        return surveyInfoList.get(0).getId();
     }
 
     @Override
