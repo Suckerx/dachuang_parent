@@ -62,12 +62,21 @@ public class SurveyInfoServiceImpl extends ServiceImpl<SurveyInfoMapper, SurveyI
         // 3.根据问题id查询每个问题对应选项
         List<NewSurveyVo> list = new ArrayList<>();
 
+        //贪图方便所有问题选项直接使用第一个问题的选项
+        List<OptionInfo> optionInfos = optionInfoService.selectAllOptionsList(1);
+
         questionInfos.forEach(questionInfo -> {
             NewSurveyVo newSurveyVo = new NewSurveyVo();
             newSurveyVo.setQuestionInfo(questionInfo);
             //查找每个问题对应选项集合
-            List<OptionInfo> optionInfos = optionInfoService.selectAllOptionsList(questionInfo.getId());
+            //List<OptionInfo> optionInfos = optionInfoService.selectAllOptionsList(questionInfo.getId());
             //封装数据
+
+            //设置每一个选项列表对应的问题id
+            optionInfos.forEach(optionInfo -> {
+                optionInfo.setQuestionId(questionInfo.getId());
+            });
+
             newSurveyVo.setOptionInfoList(optionInfos);
             list.add(newSurveyVo);
         });
