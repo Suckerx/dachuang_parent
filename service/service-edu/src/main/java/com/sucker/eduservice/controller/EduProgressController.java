@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 @Api(description = "诊疗过程管理")
 @RestController
 @RequestMapping("/eduservice/eduProgress")
+@CrossOrigin
 public class EduProgressController {
 
     @Autowired
