@@ -65,7 +65,7 @@ public class App {
     }
 
     // 写响应报文工具方法
-    private void httpWrite(HttpExchange he, int code, String response) throws IOException {
+    private static void httpWrite(HttpExchange he, int code, String response) throws IOException {
         OutputStream os = he.getResponseBody();
         he.sendResponseHeaders(code, response.length());
         os.write(response.getBytes());
@@ -80,8 +80,8 @@ public class App {
                 Headers headers = he.getResponseHeaders();
                 headers.set("Access-Control-Allow-Origin", "*");
                 headers.set("Access-Control-Allow-Methods", "GET,POST,HEAD,PUT,DELETE,OPTIONS");
-                headers.set("Access-Control-Expose-Headers", "Server,Range,Content-Length,Content-Range");
-                headers.set("Access-Control-Allow-Headers", "Origin,Range,Accept-Encoding,Referer,Cache-Control,X-Proxy-Authorization,X-Requested-With,Content-Type");
+                headers.set("Access-Control-Expose-Headers", "Server,Range,Content-Length,Content-Range\");\n" +
+                        "                headers.set(\"Access-Control-Allow-Headers\", \"Origin,Range,Accept-Encoding,Referer,Cache-Control,X-Proxy-Authorization,X-Requested-With,Content-Type");
             }
 
             if (he.getRequestMethod().equalsIgnoreCase("OPTIONS")) {

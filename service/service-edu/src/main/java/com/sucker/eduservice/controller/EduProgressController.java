@@ -3,6 +3,7 @@ package com.sucker.eduservice.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.sucker.commonutils.R;
+import com.sucker.eduservice.aliyunRTC.App;
 import com.sucker.eduservice.entity.EduProgress;
 import com.sucker.eduservice.service.EduProgressService;
 import io.swagger.annotations.Api;
@@ -74,6 +75,7 @@ public class EduProgressController {
         boolean update = eduProgressService.update(eduProgress, new QueryWrapper<EduProgress>().eq("progress_id", userId));
         if(update) return R.ok().message("修改成功!");
         else return R.error().message("修改失败!");
+
 
     }
 
