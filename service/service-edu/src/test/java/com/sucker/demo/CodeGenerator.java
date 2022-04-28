@@ -15,8 +15,8 @@ public class CodeGenerator {
     // 演示例子，执行 main 方法控制台输入模块表名回车自动生成对应项目目录中
     @Test
     public void test(){
-        FastAutoGenerator.create("jdbc:mysql://localhost:3306/dachuang_edu?useUnicode=true&characterEncoding=utf8",
-                "root", "123456")
+        FastAutoGenerator.create("jdbc:mysql://101.43.184.159:3306/dachuang_edu?useUnicode=true&characterEncoding=utf8",
+                "root", "mysql")
                 .globalConfig(builder -> {
                     builder.author("sucker") // 设置作者
                             .enableSwagger() // 开启 swagger 模式
@@ -36,7 +36,7 @@ public class CodeGenerator {
                                     "D:\\JavaCode\\dachuang_parent\\service\\service-edu\\src\\main\\resources\\mapper")); // 设置mapperXml生成路径
                 })
                 .strategyConfig(builder -> {
-                    builder.addInclude("survey_info","question_info","option_info","answer_info") // 设置需要生成的表名
+                    builder.addInclude("reserve") // 设置需要生成的表名
                             .addTablePrefix("t_", "c_") // 设置过滤表前缀
                             .serviceBuilder()
                             .formatServiceFileName("%sService")
