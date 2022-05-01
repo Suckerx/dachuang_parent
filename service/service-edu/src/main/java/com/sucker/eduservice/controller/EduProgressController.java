@@ -12,6 +12,8 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * <p>
  * 诊疗过程表 前端控制器
@@ -65,6 +67,12 @@ public class EduProgressController {
     }
 
 
+    /**
+     * 修改诊疗过程
+     * @param userId
+     * @param progress
+     * @return
+     */
     @ApiOperation(value = "修改诊疗过程",notes = "详细描述：若病人已经创建过，需要修改，则根据userId修改诊疗过程，需传入诊疗过程字符串")
     @PostMapping("updateProgressById/{userId}")
     public R updateProgressById(@ApiParam(value = "userId") @PathVariable String userId,
@@ -81,6 +89,12 @@ public class EduProgressController {
 
 
 
+    @ApiOperation(value = "查询所有诊疗过程",notes = "详细描述：根据teacherId查询所有诊疗过程")
+    @GetMapping("findAllByTeacherId/{teacherId}")
+    public R findAll(@ApiParam(value = "老师Id") @PathVariable String teacherId){
+        List<EduProgress> allProgress = eduProgressService.findAll(teacherId);
+        return R.ok().data("allProgress",allProgress);
+    }
 
 }
 

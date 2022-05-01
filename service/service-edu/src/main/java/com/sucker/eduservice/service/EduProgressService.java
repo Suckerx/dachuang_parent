@@ -3,6 +3,8 @@ package com.sucker.eduservice.service;
 import com.sucker.eduservice.entity.EduProgress;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  * 诊疗过程表 服务类
@@ -13,4 +15,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface EduProgressService extends IService<EduProgress> {
 
+    //查询所有诊疗过程根据老师Id
+    List<EduProgress> findAll(String teacherId);
 }
