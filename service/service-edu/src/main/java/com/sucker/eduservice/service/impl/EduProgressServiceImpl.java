@@ -38,16 +38,15 @@ public class EduProgressServiceImpl extends ServiceImpl<EduProgressMapper, EduPr
 
         //首先，根据老师Id查询所有userId
         List<EduUser> userList = eduUserMapper.selectList(new QueryWrapper<EduUser>().eq("teacher_id", teacherId));
-        //根据所有userId查询对应诊疗过程
         for (EduUser eduUser : userList) {
-            EduProgress eduProgress =new EduProgress();
+            EduProgress eduProgress = new EduProgress();
+            //根据所有userId查询对应诊疗过程
             try {
-                eduProgress = eduProgressMapper.selectById(eduUser.getUserId());
+                eduProgress = eduProgressMapper.selectOne(new QueryWrapper<EduProgress>().eq("user_id",eduUser.getUserId()));
             } catch (Exception e) {
                 e.printStackTrace();
                 continue;
             }
-            //加入列表
             progressList.add(eduProgress);
         }
 

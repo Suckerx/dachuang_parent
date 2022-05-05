@@ -1,9 +1,7 @@
 package com.sucker.eduservice.entity;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
+
 import java.io.Serializable;
 import java.util.Date;
 import io.swagger.annotations.ApiModel;
@@ -27,9 +25,13 @@ public class EduProgress implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("对应userid")
-    @TableId("progress_id")
+    @ApiModelProperty("id")
+    @TableId(value = "progress_id",type = IdType.ASSIGN_ID)
     private String progressId;
+
+    @ApiModelProperty("userid")
+    @TableField(value = "user_id")
+    private String userId;
 
     @ApiModelProperty("诊疗过程")
     @TableField("progress")

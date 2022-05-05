@@ -93,7 +93,8 @@ public class EduProgressController {
     @GetMapping("findAllByTeacherId/{teacherId}")
     public R findAll(@ApiParam(value = "老师Id") @PathVariable String teacherId){
         List<EduProgress> allProgress = eduProgressService.findAll(teacherId);
-        return R.ok().data("allProgress",allProgress);
+        if(allProgress.size()>0) return R.ok().data("size",allProgress.size()).data("allProgress",allProgress);
+        return R.error().message("没有相关记录或其他异常！");
     }
 
 }
