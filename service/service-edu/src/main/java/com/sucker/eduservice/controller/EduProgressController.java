@@ -62,7 +62,13 @@ public class EduProgressController {
     @ApiOperation(value = "查询诊疗过程",notes = "详细描述：根据userId查询诊疗过程")
     @GetMapping("getProgressById/{userId}")
     public R getProgressById(@ApiParam(value = "userId") @PathVariable String userId){
-        EduProgress progress = eduProgressService.getById(userId);
+        EduProgress progress = null;
+        try {
+            progress = eduProgressService.getOne(new QueryWrapper<EduProgress>().eq("user_id",userId));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return R.error().message("查询失败！");
+        }
         return R.ok().data("progress",progress);
     }
 
