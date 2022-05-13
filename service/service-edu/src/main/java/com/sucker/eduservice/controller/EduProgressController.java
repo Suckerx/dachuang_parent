@@ -82,11 +82,12 @@ public class EduProgressController {
     @ApiOperation(value = "修改诊疗过程",notes = "详细描述：若病人已经创建过，需要修改，则根据userId修改诊疗过程，需传入诊疗过程字符串")
     @PostMapping("updateProgressById/{userId}")
     public R updateProgressById(@ApiParam(value = "userId") @PathVariable String userId,
-                                @ApiParam(value = "诊疗过程字符串") String progress){
+                                @ApiParam(value = "诊疗过程字符串") @RequestBody String progress){
         EduProgress eduProgress = new EduProgress();
         eduProgress.setProgressId(userId);
         eduProgress.setProgress(progress);
-        boolean update = eduProgressService.update(eduProgress, new QueryWrapper<EduProgress>().eq("progress_id", userId));
+        System.out.println(progress);
+        boolean update = eduProgressService.update(eduProgress, new QueryWrapper<EduProgress>().eq("user_id", userId));
         if(update) return R.ok().message("修改成功!");
         else return R.error().message("修改失败!");
 
